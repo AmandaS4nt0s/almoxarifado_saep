@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 public class RecursoController {
 
@@ -22,15 +21,16 @@ public class RecursoController {
     }
 
     @PostMapping("/RecursoCadastrar")
-    public String cadastrarRecurso(@Valid @ModelAttribute("recurso")
-                                   EpisDto episDto, FerramentaDto ferramentaDto, InsumoDto insumoDto,
-                                   BindingResult bindingResult,
-                                   RedirectAttributes redirectAttributes) {
-       if (bindingResult.hasErrors()){
-           return "RecursoCadastrar";
-       }
-       recursoService.cadastrarRecurso(episDto,ferramentaDto,insumoDto);
-       redirectAttributes.addFlashAttribute("mensagem", "Rescusro cadastrado com sucesso");
+    public String cadastrarRecurso(@Valid @ModelAttribute("recurso") EpisDto episDto, BindingResult bindingResult, @ModelAttribute FerramentaDto ferramentaDto, @ModelAttribute InsumoDto insumoDto, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "RecursoCadastrar";
+        }
+
+        recursoService.cadastrarRecurso(episDto, ferramentaDto, insumoDto);
+
+        redirectAttributes.addFlashAttribute("mensagem", "Recurso cadastrado com sucesso!");
+
+        return "redirect:/ListaRecurso";
     }
-    return "redirect:/ListaRecurso";
 }

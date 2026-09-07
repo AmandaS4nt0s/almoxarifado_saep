@@ -1,4 +1,5 @@
 package Senai.Almoxarifado.Services;
+
 import Senai.Almoxarifado.Dtos.EpisDto;
 import Senai.Almoxarifado.Dtos.FerramentaDto;
 import Senai.Almoxarifado.Dtos.InsumoDto;
@@ -23,20 +24,23 @@ public class RecursoService {
         this.ferramentaRepository = ferramentaRepository;
     }
 
-    public void CadastrarRecurso(EpisDto episDto, InsumoDto insumoDto, FerramentaDto ferramentaDto) {
+    public void cadastrarRecurso(EpisDto episDto, FerramentaDto ferramentaDto, InsumoDto insumoDto) {
+
         validarEpi(episDto);
         validarFerramenta(ferramentaDto);
         validarInsumo(insumoDto);
+
         epiRepositoy.save(converterEpiDtoParaEpiEntity(episDto));
         ferramentaRepository.save(converterFerramentaDtoParaFerramentaEntity(ferramentaDto));
         insumoRepository.save(converterInsumoDtoParaInsumoEntity(insumoDto));
-
     }
 
-//------EPIS-----//
+    // ===================== EPI =====================
 
     private void validarEpi(EpisDto episDto) {
-        if (episDto.)
+        if (episDto == null) {
+            throw new IllegalArgumentException("EPI inválido.");
+        }
     }
 
     private EpisEntity converterEpiDtoParaEpiEntity(EpisDto episDto) {
@@ -65,7 +69,13 @@ public class RecursoService {
         return episDto;
     }
 
-//------FERRAMENTA-----//
+    // ===================== FERRAMENTA =====================
+
+    private void validarFerramenta(FerramentaDto ferramentaDto) {
+        if (ferramentaDto == null) {
+            throw new IllegalArgumentException("Ferramenta inválida.");
+        }
+    }
 
     private FerramentaEntity converterFerramentaDtoParaFerramentaEntity(FerramentaDto ferramentaDto) {
 
@@ -93,7 +103,13 @@ public class RecursoService {
         return ferramentaDto;
     }
 
-//------INSUMO-----//
+    // ===================== INSUMO =====================
+
+    private void validarInsumo(InsumoDto insumoDto) {
+        if (insumoDto == null) {
+            throw new IllegalArgumentException("Insumo inválido.");
+        }
+    }
 
     private InsumoEntity converterInsumoDtoParaInsumoEntity(InsumoDto insumoDto) {
 
@@ -116,6 +132,4 @@ public class RecursoService {
 
         return insumoDto;
     }
-
-
 }
