@@ -1,0 +1,1175 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <!--
+        Faz a página se adaptar a celular, tablet e computador.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Recurso</title>
+
+
+    <style>
+
+        /* =========================================================
+           CONFIGURAÇÕES GERAIS
+           ========================================================= */
+
+        /*
+            Remove margens e espaçamentos padrão do navegador.
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /*
+            Define a fonte principal da página.
+        */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+
+        /* =========================================================
+           ESTRUTURA PRINCIPAL
+           ========================================================= */
+
+        /*
+            Container que divide a tela em:
+
+            - sidebar
+            - conteúdo principal
+        */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+           ========================================================= */
+
+        /*
+            Barra lateral esquerda.
+        */
+        .sidebar {
+            width: 240px;
+            background-color: #1f2937;
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 25px 15px;
+        }
+
+
+        /*
+            Título do sistema dentro da sidebar.
+        */
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+
+        /*
+            Links do menu lateral.
+        */
+        .sidebar a {
+            text-decoration: none;
+            color: white;
+
+            padding: 12px 15px;
+            margin-bottom: 8px;
+
+            border-radius: 6px;
+
+            transition: 0.2s;
+        }
+
+
+        /*
+            Efeito quando o mouse passa sobre os links.
+        */
+        .sidebar a:hover {
+            background-color: #374151;
+        }
+
+
+        /*
+            Formulário do botão de logout.
+        */
+        .logout-form {
+            margin-top: auto;
+        }
+
+
+        /*
+            Botão sair.
+        */
+        .logout-button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 6px;
+
+            background-color: #dc2626;
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+
+        .logout-button:hover {
+            background-color: #b91c1c;
+        }
+
+
+        /* =========================================================
+           CONTEÚDO PRINCIPAL
+           ========================================================= */
+
+        /*
+            Parte direita da tela.
+        */
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+
+        /*
+            Cabeçalho da página.
+        */
+        .header {
+            margin-bottom: 25px;
+        }
+
+
+        .header h1 {
+            font-size: 28px;
+            color: #1f2937;
+        }
+
+
+        .header p {
+            margin-top: 5px;
+            color: #6b7280;
+        }
+
+
+        /* =========================================================
+           ABAS DAS CATEGORIAS
+           ========================================================= */
+
+        /*
+            Container das três abas.
+        */
+        .tabs {
+            display: flex;
+            gap: 10px;
+
+            margin-bottom: 20px;
+
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+
+        /*
+            Cada botão de categoria.
+        */
+        .tab-btn {
+            border: none;
+
+            background-color: transparent;
+
+            padding: 12px 20px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            color: #6b7280;
+
+            border-bottom: 3px solid transparent;
+
+            transition: 0.2s;
+        }
+
+
+        /*
+            Efeito ao passar o mouse.
+        */
+        .tab-btn:hover {
+            color: #111827;
+        }
+
+
+        /*
+            Categoria atualmente selecionada.
+        */
+        .tab-btn.active {
+            color: #111827;
+
+            border-bottom: 3px solid #2563eb;
+        }
+
+
+        /* =========================================================
+           PAINEL DO FORMULÁRIO
+           ========================================================= */
+
+        /*
+            Caixa branca onde ficará o formulário.
+        */
+        .form-panel {
+            background-color: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /*
+            Por padrão todos os formulários ficam escondidos.
+        */
+        .tab-content {
+            display: none;
+        }
+
+
+        /*
+            Somente o formulário da aba selecionada aparece.
+        */
+        .tab-content.active {
+            display: block;
+        }
+
+
+        /*
+            Título interno do formulário.
+        */
+        .form-title {
+            margin-bottom: 25px;
+
+            font-size: 22px;
+
+            color: #1f2937;
+        }
+
+
+        /* =========================================================
+           GRID DOS CAMPOS
+           ========================================================= */
+
+        /*
+            Organiza os campos em duas colunas.
+        */
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        /*
+            Campo que ocupa a largura inteira.
+        */
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+
+        /*
+            Cada grupo contém:
+
+            label
+            input/select
+        */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /*
+            Nome do campo.
+        */
+        .form-group label {
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #374151;
+        }
+
+
+        /*
+            Campos de texto, número e data.
+        */
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        /*
+            Efeito quando o usuário seleciona um campo.
+        */
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+        }
+
+
+        /* =========================================================
+           MENSAGENS DE ERRO
+           ========================================================= */
+
+        /*
+            Mensagem enviada pelo Thymeleaf através do BindingResult.
+        */
+        .error {
+            color: #dc2626;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================================================
+           BOTÃO CADASTRAR
+           ========================================================= */
+
+        .form-actions {
+            margin-top: 25px;
+
+            display: flex;
+
+            justify-content: flex-end;
+        }
+
+
+        .btn-submit {
+            padding: 12px 25px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background-color: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .btn-submit:hover {
+            background-color: #1d4ed8;
+        }
+
+
+        /* =========================================================
+           RESPONSIVIDADE
+           ========================================================= */
+
+        /*
+            Quando a tela ficar pequena,
+            sidebar passa para cima do conteúdo.
+        */
+        @media (max-width: 768px) {
+
+            .layout {
+                flex-direction: column;
+            }
+
+
+            .sidebar {
+                width: 100%;
+            }
+
+
+            .main {
+                padding: 20px;
+            }
+
+
+            /*
+                Campos passam a ocupar uma única coluna.
+            */
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+
+            /*
+                Abas podem quebrar linha em telas pequenas.
+            */
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =============================================================
+     LAYOUT PRINCIPAL
+     ============================================================= -->
+
+<div class="layout">
+
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
+
+    <aside class="sidebar">
+
+        <h2>Almoxarifado</h2>
+
+
+        <!-- Menu principal -->
+
+        <a th:href="@{/home}">
+            🏠 Início
+        </a>
+
+
+        <a th:href="@{/recursolista}">
+            📦 Lista de Recursos
+        </a>
+
+
+        <a th:href="@{/recursocadastrar}">
+            ➕ Cadastrar Recurso
+        </a>
+
+
+        <!--
+            Logout através de POST.
+        -->
+        <form th:action="@{/logout}"
+              method="post"
+              class="logout-form">
+
+            <button type="submit"
+                    class="logout-button">
+
+                Sair
+
+            </button>
+
+        </form>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         CONTEÚDO PRINCIPAL
+         ========================================================= -->
+
+    <main class="main">
+
+
+        <!-- =====================================================
+             CABEÇALHO
+             ===================================================== -->
+
+        <div class="header">
+
+            <h1>
+                Cadastrar Recurso 📦
+            </h1>
+
+            <p>
+                Selecione uma categoria para cadastrar um novo recurso.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             ABAS
+             ===================================================== -->
+
+        <div class="tabs">
+
+
+            <!-- ABA FERRAMENTAS -->
+
+            <button type="button"
+                    class="tab-btn active"
+                    onclick="openCategory('ferramentas', this)">
+
+                🔧 Ferramentas
+
+            </button>
+
+
+            <!-- ABA EPIs -->
+
+            <button type="button"
+                    class="tab-btn"
+                    onclick="openCategory('epis', this)">
+
+                🦺 EPIs
+
+            </button>
+
+
+            <!-- ABA INSUMOS -->
+
+            <button type="button"
+                    class="tab-btn"
+                    onclick="openCategory('insumos', this)">
+
+                📦 Insumos
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             PAINEL DOS FORMULÁRIOS
+             ===================================================== -->
+
+        <div class="form-panel">
+
+
+            <!-- =================================================
+                 FORMULÁRIO DE FERRAMENTAS
+                 ================================================= -->
+
+            <div id="ferramentas"
+                 class="tab-content active">
+
+
+                <h2 class="form-title">
+                    Cadastrar Ferramenta 🔧
+                </h2>
+
+
+                <!--
+                    Formulário enviado para o Controller.
+
+                    IMPORTANTE:
+                    Estou considerando aqui:
+
+                    POST /ferramentacadastrar
+                -->
+                <form th:action="@{/ferramentacadastrar}"
+                      th:object="${ferramenta}"
+                      method="post">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- PATRIMÔNIO -->
+
+                        <div class="form-group">
+
+                            <label for="patrimonio">
+                                Patrimônio
+                            </label>
+
+                            <input type="text"
+                                   id="patrimonio"
+                                   th:field="*{patrimonio}"
+                                   placeholder="Ex: PAT-001">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('patrimonio')}"
+                                  th:errors="*{patrimonio}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- NOME -->
+
+                        <div class="form-group">
+
+                            <label for="nomeFerramenta">
+                                Nome da ferramenta
+                            </label>
+
+                            <input type="text"
+                                   id="nomeFerramenta"
+                                   th:field="*{nome}"
+                                   placeholder="Ex: Furadeira">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('nome')}"
+                                  th:errors="*{nome}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- MARCA -->
+
+                        <div class="form-group">
+
+                            <label for="marca">
+                                Marca
+                            </label>
+
+                            <input type="text"
+                                   id="marca"
+                                   th:field="*{marca}"
+                                   placeholder="Ex: Bosch">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('marca')}"
+                                  th:errors="*{marca}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- QUANTIDADE -->
+
+                        <div class="form-group">
+
+                            <label for="quantidadeFerramenta">
+                                Quantidade
+                            </label>
+
+                            <input type="number"
+                                   id="quantidadeFerramenta"
+                                   th:field="*{quantidade}"
+                                   min="1"
+                                   placeholder="Ex: 5">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('quantidade')}"
+                                  th:errors="*{quantidade}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- LOCALIZAÇÃO -->
+
+                        <div class="form-group full">
+
+                            <label for="localizacaoFerramenta">
+                                Localização
+                            </label>
+
+                            <input type="text"
+                                   id="localizacaoFerramenta"
+                                   th:field="*{localizacao}"
+                                   placeholder="Ex: Corredor A - Prateleira 2">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('localizacao')}"
+                                  th:errors="*{localizacao}">
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BOTÃO -->
+
+                    <div class="form-actions">
+
+                        <button type="submit"
+                                class="btn-submit">
+
+                            Cadastrar Ferramenta
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FORMULÁRIO DE EPI
+                 ================================================= -->
+
+            <div id="epis"
+                 class="tab-content">
+
+
+                <h2 class="form-title">
+                    Cadastrar EPI 🦺
+                </h2>
+
+
+                <!--
+                    Considerando o endpoint:
+
+                    POST /epicadastrar
+                -->
+
+                <form th:action="@{/epicadastrar}"
+                      th:object="${epi}"
+                      method="post">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- NOME -->
+
+                        <div class="form-group full">
+
+                            <label for="nomeEpi">
+                                Nome do EPI
+                            </label>
+
+                            <input type="text"
+                                   id="nomeEpi"
+                                   th:field="*{nome}"
+                                   placeholder="Ex: Capacete de segurança">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('nome')}"
+                                  th:errors="*{nome}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- QUANTIDADE -->
+
+                        <div class="form-group">
+
+                            <label for="quantidadeEpi">
+                                Quantidade
+                            </label>
+
+                            <input type="number"
+                                   id="quantidadeEpi"
+                                   th:field="*{quantidade}"
+                                   min="0"
+                                   placeholder="Ex: 20">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('quantidade')}"
+                                  th:errors="*{quantidade}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- TAMANHO -->
+
+                        <div class="form-group">
+
+                            <label for="tamanhoEpi">
+                                Tamanho
+                            </label>
+
+                            <input type="number"
+                                   id="tamanhoEpi"
+                                   th:field="*{tamanho}"
+                                   min="0"
+                                   placeholder="Ex: 42">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('tamanho')}"
+                                  th:errors="*{tamanho}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- DATA DE FABRICAÇÃO -->
+
+                        <div class="form-group">
+
+                            <label for="dataFabricacao">
+                                Data de fabricação
+                            </label>
+
+                            <input type="date"
+                                   id="dataFabricacao"
+                                   th:field="*{dataFabricacao}">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('dataFabricacao')}"
+                                  th:errors="*{dataFabricacao}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- LOCALIZAÇÃO -->
+
+                        <div class="form-group">
+
+                            <label for="localizacaoEpi">
+                                Localização
+                            </label>
+
+                            <input type="text"
+                                   id="localizacaoEpi"
+                                   th:field="*{localizacao}"
+                                   placeholder="Ex: Corredor B - Prateleira 3">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('localizacao')}"
+                                  th:errors="*{localizacao}">
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BOTÃO -->
+
+                    <div class="form-actions">
+
+                        <button type="submit"
+                                class="btn-submit">
+
+                            Cadastrar EPI
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FORMULÁRIO DE INSUMOS
+                 ================================================= -->
+
+            <div id="insumos"
+                 class="tab-content">
+
+
+                <h2 class="form-title">
+                    Cadastrar Insumo 📦
+                </h2>
+
+
+                <!--
+                    Considerando:
+
+                    POST /insumocadastrar
+                -->
+
+                <form th:action="@{/insumocadastrar}"
+                      th:object="${insumo}"
+                      method="post">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- CÓDIGO -->
+
+                        <div class="form-group">
+
+                            <label for="codigoInsumo">
+                                Código
+                            </label>
+
+                            <input type="text"
+                                   id="codigoInsumo"
+                                   th:field="*{codigo}"
+                                   placeholder="Ex: INS-001">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('codigo')}"
+                                  th:errors="*{codigo}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- NOME -->
+
+                        <div class="form-group">
+
+                            <label for="nomeInsumo">
+                                Insumo
+                            </label>
+
+                            <input type="text"
+                                   id="nomeInsumo"
+                                   th:field="*{insumo}"
+                                   placeholder="Ex: Óleo lubrificante">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('insumo')}"
+                                  th:errors="*{insumo}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- UNIDADE -->
+
+                        <div class="form-group">
+
+                            <label for="unidade">
+                                Unidade
+                            </label>
+
+                            <select id="unidade"
+                                    th:field="*{unidade}">
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="Kg">
+                                    Kg
+                                </option>
+
+                                <option value="L">
+                                    L
+                                </option>
+
+                                <option value="Un">
+                                    Un
+                                </option>
+
+                            </select>
+
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('unidade')}"
+                                  th:errors="*{unidade}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- ESTOQUE ATUAL -->
+
+                        <div class="form-group">
+
+                            <label for="estoqueAtual">
+                                Estoque atual
+                            </label>
+
+                            <input type="number"
+                                   id="estoqueAtual"
+                                   th:field="*{estoqueAtual}"
+                                   min="0"
+                                   placeholder="Ex: 50">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('estoqueAtual')}"
+                                  th:errors="*{estoqueAtual}">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- ESTOQUE MÍNIMO -->
+
+                        <div class="form-group">
+
+                            <label for="estoqueMinimo">
+                                Estoque mínimo
+                            </label>
+
+                            <input type="number"
+                                   id="estoqueMinimo"
+                                   th:field="*{estoqueMinimo}"
+                                   min="0"
+                                   placeholder="Ex: 10">
+
+                            <span class="error"
+                                  th:if="${#fields.hasErrors('estoqueMinimo')}"
+                                  th:errors="*{estoqueMinimo}">
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BOTÃO -->
+
+                    <div class="form-actions">
+
+                        <button type="submit"
+                                class="btn-submit">
+
+                            Cadastrar Insumo
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =============================================================
+     JAVASCRIPT DAS ABAS
+     ============================================================= -->
+
+<script>
+
+    /*
+        Função responsável por trocar entre:
+
+        - Ferramentas
+        - EPIs
+        - Insumos
+    */
+    function openCategory(categoryName, element) {
+
+
+        /*
+            Procura todos os conteúdos das categorias.
+        */
+        const contents =
+            document.querySelectorAll('.tab-content');
+
+
+        /*
+            Esconde todos os formulários.
+        */
+        contents.forEach(function(content) {
+
+            content.classList.remove('active');
+
+        });
+
+
+        /*
+            Procura todos os botões das abas.
+        */
+        const buttons =
+            document.querySelectorAll('.tab-btn');
+
+
+        /*
+            Remove o estado "ativo"
+            de todos os botões.
+        */
+        buttons.forEach(function(button) {
+
+            button.classList.remove('active');
+
+        });
+
+
+        /*
+            Mostra somente a categoria escolhida.
+        */
+        document
+            .getElementById(categoryName)
+            .classList.add('active');
+
+
+        /*
+            Deixa o botão clicado como ativo.
+        */
+        element.classList.add('active');
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+

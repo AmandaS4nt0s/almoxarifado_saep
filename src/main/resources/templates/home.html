@@ -1,0 +1,1078 @@
+```
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Almoxarifado | Início</title>
+
+    <style>
+        /* =========================================================
+           GUIA RÁPIDO PARA ESTUDAR ESTE CSS
+           - selector (.card, body, etc.) = "QUEM recebe o estilo"
+           - propriedade (width, color, padding...) = "O QUE mudar"
+           - valor (240px, white, 12px...) = "COMO mudar"
+           - :hover = quando o mouse passa por cima
+           - @media = muda o layout em telas menores
+           ========================================================= */
+
+        /* >>> RESET BÁSICO: aplica estas regras a TODOS os elementos da página. */
+        * {
+            /* ESPAÇO EXTERNO: cria distância entre este elemento e os elementos ao redor. */
+            margin: 0;
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 0;
+            /* DEFINE COMO width/height são calculados. border-box faz a borda e o padding caberem dentro do tamanho definido. */
+            box-sizing: border-box;
+            /* DEFINE A FAMÍLIA DA FONTE usada pelo texto. */
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* >>> CORPO DA PÁGINA: controla o fundo e a aparência geral. */
+        body {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #f5f7fa;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #1f2937;
+        }
+
+        /* ===== SIDEBAR ===== */
+
+        /* >>> BARRA LATERAL: é o menu escuro fixado no lado esquerdo. */
+        .sidebar {
+            /* DEFINE COMO O ELEMENTO É POSICIONADO. fixed prende o elemento à tela. */
+            position: fixed;
+            /* DISTÂNCIA DO LADO ESQUERDO quando o posicionamento permite (fixed/absolute/etc.). */
+            left: 0;
+            /* DISTÂNCIA DO TOPO quando o posicionamento permite (fixed/absolute/etc.). */
+            top: 0;
+
+            /* LARGURA do elemento. */
+            width: 240px;
+            /* ALTURA do elemento. */
+            height: 100vh;
+
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #111827;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: white;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 28px 18px;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* DEFINE A DIREÇÃO dos itens dentro de um flex. column coloca um abaixo do outro. */
+            flex-direction: column;
+        }
+
+        /* >>> ÁREA DA LOGO: organiza o ícone e o nome do sistema. */
+        .logo {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 12px;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 0 10px;
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 45px;
+        }
+
+        /* >>> QUADRADO DO ÍCONE DA LOGO. */
+        .logo-icon {
+            /* LARGURA do elemento. */
+            width: 38px;
+            /* ALTURA do elemento. */
+            height: 38px;
+
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #2563eb;
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 10px;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: center;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 20px;
+        }
+
+        /* >>> TÍTULO 'Almoxarifado' dentro da logo. */
+        .logo h2 {
+            /* TAMANHO DA FONTE. */
+            font-size: 18px;
+            /* ESPESSURA/PESO DA FONTE. */
+            font-weight: 600;
+        }
+
+        /* >>> TÍTULO PEQUENO 'MENU' acima dos links. */
+        .menu-title {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #6b7280;
+            /* TAMANHO DA FONTE. */
+            font-size: 11px;
+            /* ESPESSURA/PESO DA FONTE. */
+            font-weight: 600;
+
+            /* TRANSFORMAÇÃO DO TEXTO. uppercase deixa as letras maiúsculas. */
+            text-transform: uppercase;
+            /* ESPAÇAMENTO ENTRE AS LETRAS. */
+            letter-spacing: 1px;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 0 12px;
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 10px;
+        }
+
+        /* >>> CONTAINER DOS LINKS DO MENU. */
+        .menu {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* DEFINE A DIREÇÃO dos itens dentro de um flex. column coloca um abaixo do outro. */
+            flex-direction: column;
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 5px;
+        }
+
+        /* >>> CADA LINK da barra lateral. */
+        .menu a {
+            /* DECORAÇÃO DO TEXTO. none remove o sublinhado padrão dos links. */
+            text-decoration: none;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 12px;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 8px;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 12px;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 14px;
+
+            /* CRIA UMA ANIMAÇÃO SUAVE quando alguma propriedade muda, como no hover. */
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+            /* >>> ESTILO DO LINK da página atualmente selecionada. */
+        .menu a.active {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #1f2937;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: white;
+        }
+
+        /* >>> ESTILO DO LINK da página atualmente selecionada. */
+        .menu a.active {
+            /* DEFINE A BORDA DO LADO ESQUERDO. */
+            border-left: 3px solid #3b82f6;
+        }
+
+        /* >>> ESPAÇO/ALINHAMENTO reservado para o ícone de cada opção. */
+        .menu-icon {
+            /* LARGURA do elemento. */
+            width: 20px;
+            /* PROPRIEDADE: text-align = define uma característica visual/comportamental deste elemento. */
+            text-align: center;
+        }
+
+        /* >>> CONTAINER da área de sair/logout. */
+        .logout {
+            /* ESPAÇO EXTERNO NO TOPO: cria distância acima do elemento. */
+            margin-top: auto;
+        }
+
+        /* >>> ESTILO de links dentro do logout. */
+        .logout a {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+        }
+
+        /* >>> ESTILO do logout quando o mouse passa por cima. */
+        .logout a:hover {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #ef4444;
+        }
+
+        /* ===== BOTÃO LOGOUT ===== */
+
+        /* >>> BOTÃO 'Sair' que envia o formulário para /logout. */
+        .logout-button {
+            /* LARGURA do elemento. */
+            width: 100%;
+            /* DEFINE A BORDA: espessura, estilo e cor. */
+            border: none;
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: transparent;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 12px;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 8px;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 12px;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 14px;
+            /* DEFINE A FAMÍLIA DA FONTE usada pelo texto. */
+            font-family: inherit;
+
+            /* DEFINE O FORMATO DO CURSOR do mouse. pointer mostra a mãozinha de link/botão. */
+            cursor: pointer;
+
+            /* CRIA UMA ANIMAÇÃO SUAVE quando alguma propriedade muda, como no hover. */
+            transition: 0.2s;
+        }
+
+        /* >>> EFEITO visual do botão Sair ao passar o mouse. */
+        .logout-button:hover {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #1f2937;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #ef4444;
+        }
+
+        /* >>> Ajusta o ícone que fica dentro do botão Sair. */
+        .logout-button .menu-icon {
+            /* LARGURA do elemento. */
+            width: 20px;
+            /* PROPRIEDADE: text-align = define uma característica visual/comportamental deste elemento. */
+            text-align: center;
+        }
+
+
+        /* ===== MAIN ===== */
+
+        /* >>> CONTEÚDO PRINCIPAL: fica à direita da sidebar. */
+        .main {
+            /* ESPAÇO EXTERNO À ESQUERDA: empurra o elemento para longe da esquerda. */
+            margin-left: 240px;
+            /* ALTURA MÍNIMA: o elemento não fica menor que este valor. */
+            min-height: 100vh;
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 35px 45px;
+        }
+
+        /* ===== HEADER ===== */
+
+        /* >>> CABEÇALHO da área principal. */
+        .header {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: space-between;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 35px;
+        }
+
+        /* >>> TÍTULO principal de boas-vindas. */
+        .header h1 {
+            /* TAMANHO DA FONTE. */
+            font-size: 28px;
+            /* ESPESSURA/PESO DA FONTE. */
+            font-weight: 600;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #111827;
+        }
+
+        /* >>> TEXTO menor abaixo do título. */
+        .header p {
+            /* ESPAÇO EXTERNO NO TOPO: cria distância acima do elemento. */
+            margin-top: 6px;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #6b7280;
+            /* TAMANHO DA FONTE. */
+            font-size: 14px;
+        }
+
+        /* >>> ÁREA do usuário/avatar no cabeçalho, quando utilizada. */
+        .user {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 12px;
+        }
+
+        /* >>> CÍRCULO do avatar do usuário. */
+        .avatar {
+            /* LARGURA do elemento. */
+            width: 42px;
+            /* ALTURA do elemento. */
+            height: 42px;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 50%;
+
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #dbeafe;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #2563eb;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: center;
+
+            /* ESPESSURA/PESO DA FONTE. */
+            font-weight: 600;
+        }
+
+        /* >>> NOME do usuário. */
+        .user-info strong {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: block;
+            /* TAMANHO DA FONTE. */
+            font-size: 14px;
+        }
+
+        /* >>> INFORMAÇÃO secundária do usuário. */
+        .user-info span {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+            /* TAMANHO DA FONTE. */
+            font-size: 12px;
+        }
+
+        /* ===== CARDS ===== */
+
+        /* >>> CONTAINER dos quatro cards de resumo. */
+        .cards {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: grid;
+
+            /* DEFINE QUANTAS COLUNAS a grade terá e quanto espaço cada uma ocupa. */
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 18px;
+
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 30px;
+        }
+
+        /* >>> CADA CARD de informação do dashboard. */
+        .card {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: white;
+
+            /* DEFINE A BORDA: espessura, estilo e cor. */
+            border: 1px solid #e5e7eb;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 12px;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 22px;
+
+            /* CRIA UMA ANIMAÇÃO SUAVE quando alguma propriedade muda, como no hover. */
+            transition: 0.2s;
+        }
+
+        /* >>> EFEITO do card quando o mouse passa por cima. */
+        .card:hover {
+            /* ALTERA VISUALMENTE a posição/tamanho/rotação. translateY move verticalmente. */
+            transform: translateY(-2px);
+
+            /* CRIA SOMBRA ao redor do elemento. */
+            box-shadow:
+                    0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* >>> LINHA SUPERIOR do card: texto de um lado e ícone do outro. */
+        .card-top {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: space-between;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 18px;
+        }
+
+        /* >>> QUADRADO que contém o ícone do card. */
+        .card-icon {
+            /* LARGURA do elemento. */
+            width: 40px;
+            /* ALTURA do elemento. */
+            height: 40px;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 9px;
+
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #eff6ff;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #2563eb;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: center;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 18px;
+        }
+
+        /* >>> NOME/ETIQUETA do indicador. */
+        .card-label {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #6b7280;
+            /* TAMANHO DA FONTE. */
+            font-size: 13px;
+        }
+
+        /* >>> NÚMERO PRINCIPAL do indicador. */
+        .card-value {
+            /* TAMANHO DA FONTE. */
+            font-size: 27px;
+            /* ESPESSURA/PESO DA FONTE. */
+            font-weight: 600;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #111827;
+        }
+
+        /* >>> EXPLICAÇÃO pequena abaixo do número. */
+        .card-description {
+            /* ESPAÇO EXTERNO NO TOPO: cria distância acima do elemento. */
+            margin-top: 5px;
+
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+            /* TAMANHO DA FONTE. */
+            font-size: 12px;
+        }
+
+        /* ===== CONTENT ===== */
+
+        /* >>> ÁREA ABAIXO DOS CARDS: divide tabela e ações rápidas. */
+        .content {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: grid;
+
+            /* DEFINE QUANTAS COLUNAS a grade terá e quanto espaço cada uma ocupa. */
+            grid-template-columns: 2fr 1fr;
+
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 20px;
+        }
+
+        /* >>> CADA CAIXA/PAINEL branco dessa área. */
+        .panel {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: white;
+
+            /* DEFINE A BORDA: espessura, estilo e cor. */
+            border: 1px solid #e5e7eb;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 12px;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 24px;
+        }
+
+        /* >>> CABEÇALHO de cada painel. */
+        .panel-header {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: space-between;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 20px;
+        }
+
+        /* >>> TÍTULO de cada painel. */
+        .panel-header h2 {
+            /* TAMANHO DA FONTE. */
+            font-size: 16px;
+            /* ESPESSURA/PESO DA FONTE. */
+            font-weight: 600;
+        }
+
+        /* >>> LINK do cabeçalho, como 'Ver todas'. */
+        .panel-header a {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #2563eb;
+            /* DECORAÇÃO DO TEXTO. none remove o sublinhado padrão dos links. */
+            text-decoration: none;
+            /* TAMANHO DA FONTE. */
+            font-size: 12px;
+        }
+
+        /* ===== TABELA ===== */
+
+        /* >>> TABELA de movimentações. */
+        table {
+            /* LARGURA do elemento. */
+            width: 100%;
+            /* PROPRIEDADE: border-collapse = define uma característica visual/comportamental deste elemento. */
+            border-collapse: collapse;
+        }
+
+        /* >>> CÉLULA DE CABEÇALHO da tabela. */
+        th {
+            /* PROPRIEDADE: text-align = define uma característica visual/comportamental deste elemento. */
+            text-align: left;
+
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 11px;
+
+            /* TRANSFORMAÇÃO DO TEXTO. uppercase deixa as letras maiúsculas. */
+            text-transform: uppercase;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 10px;
+
+            /* DEFINE A BORDA DE BAIXO. */
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* >>> CÉLULA NORMAL da tabela. */
+        td {
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 14px 10px;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 13px;
+
+            /* DEFINE A BORDA DE BAIXO. */
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        /* >>> ÚLTIMA LINHA: remove a borda inferior dela. */
+        /* PROPRIEDADE: tr = define uma característica visual/comportamental deste elemento. */
+        tr:last-child td {
+            /* DEFINE A BORDA DE BAIXO. */
+            border-bottom: none;
+        }
+
+        /* >>> ETIQUETA arredondada usada para mostrar o status. */
+        .status {
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 5px 9px;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 20px;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 11px;
+        }
+
+        /* >>> STATUS 'Entrada': aparência verde. */
+        .entrada {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #dcfce7;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #15803d;
+        }
+
+        /* >>> STATUS 'Saída': aparência vermelha. */
+        .saida {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #fee2e2;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #b91c1c;
+        }
+
+        /* ===== AÇÕES ===== */
+
+        /* >>> CONTAINER das ações rápidas. */
+        .actions {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* DEFINE A DIREÇÃO dos itens dentro de um flex. column coloca um abaixo do outro. */
+            flex-direction: column;
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 10px;
+        }
+
+        /* >>> CADA ITEM/link de ação rápida. */
+        .action {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+
+            /* ESPAÇO ENTRE OS FILHOS do flex/grid. */
+            gap: 14px;
+
+            /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+            padding: 14px;
+
+            /* DEFINE A BORDA: espessura, estilo e cor. */
+            border: 1px solid #e5e7eb;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 9px;
+
+            /* DECORAÇÃO DO TEXTO. none remove o sublinhado padrão dos links. */
+            text-decoration: none;
+
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #374151;
+
+            /* CRIA UMA ANIMAÇÃO SUAVE quando alguma propriedade muda, como no hover. */
+            transition: 0.2s;
+        }
+
+        /* >>> EFEITO do item de ação ao passar o mouse. */
+        .action:hover {
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #f9fafb;
+
+            /* PROPRIEDADE: border-color = define uma característica visual/comportamental deste elemento. */
+            border-color: #d1d5db;
+        }
+
+        /* >>> QUADRADO com o ícone da ação. */
+        .action-icon {
+            /* LARGURA do elemento. */
+            width: 36px;
+            /* ALTURA do elemento. */
+            height: 36px;
+
+            /* ARREDONDA OS CANTOS do elemento. */
+            border-radius: 8px;
+
+            /* DEFINE O FUNDO do elemento (neste caso, uma cor). */
+            background: #eff6ff;
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #2563eb;
+
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: flex;
+            /* ALINHA OS FILHOS NO EIXO TRANSVERSAL do flex. */
+            align-items: center;
+            /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+            justify-content: center;
+        }
+
+        /* >>> TÍTULO da ação rápida. */
+        .action-text strong {
+            /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+            display: block;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 13px;
+
+            /* ESPAÇO EXTERNO EMBAIXO: cria distância abaixo do elemento. */
+            margin-bottom: 3px;
+        }
+
+        /* >>> DESCRIÇÃO pequena da ação rápida. */
+        .action-text span {
+            /* DEFINE A COR DO TEXTO/ícones. */
+            color: #9ca3af;
+
+            /* TAMANHO DA FONTE. */
+            font-size: 11px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+
+        @media (max-width: 1000px) {
+
+            /* >>> CONTAINER dos quatro cards de resumo. */
+            .cards {
+                /* DEFINE QUANTAS COLUNAS a grade terá e quanto espaço cada uma ocupa. */
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* >>> ÁREA ABAIXO DOS CARDS: divide tabela e ações rápidas. */
+            .content {
+                /* DEFINE QUANTAS COLUNAS a grade terá e quanto espaço cada uma ocupa. */
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            /* >>> BARRA LATERAL: é o menu escuro fixado no lado esquerdo. */
+            .sidebar {
+                /* LARGURA do elemento. */
+                width: 70px;
+                /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+                padding: 20px 10px;
+            }
+
+            .logo h2,
+            .menu-title,
+            .menu a span,
+                /* >>> Regra aplicada ao seletor: .logout span */
+            .logout span {
+                /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+                display: none;
+            }
+
+            /* >>> ÁREA DA LOGO: organiza o ícone e o nome do sistema. */
+            .logo {
+                /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+                justify-content: center;
+            }
+
+            /* >>> CADA LINK da barra lateral. */
+            .menu a {
+                /* DISTRIBUI/ALINHA OS FILHOS no eixo principal do flex. */
+                justify-content: center;
+            }
+
+            /* >>> CONTEÚDO PRINCIPAL: fica à direita da sidebar. */
+            .main {
+                /* ESPAÇO EXTERNO À ESQUERDA: empurra o elemento para longe da esquerda. */
+                margin-left: 70px;
+                /* ESPAÇO INTERNO: cria distância entre o conteúdo e a borda do próprio elemento. */
+                padding: 25px 20px;
+            }
+
+            /* >>> CONTAINER dos quatro cards de resumo. */
+            .cards {
+                /* DEFINE QUANTAS COLUNAS a grade terá e quanto espaço cada uma ocupa. */
+                grid-template-columns: 1fr;
+            }
+
+            /* >>> Regra aplicada ao seletor: .user-info */
+            .user-info {
+                /* DEFINE O TIPO DE LAYOUT. flex/grid ativam sistemas de organização dos filhos. */
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR: este <aside> usa a classe .sidebar, que é estilizada no CSS acima. -->
+
+<aside class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">
+            📦
+        </div>
+        <h2>Almoxarifado</h2>
+    </div>
+
+
+    <div class="menu-title">
+        Menu
+    </div>
+    <nav class="menu">
+        <a href="home.html" class="active">
+            <div class="menu-icon">⌂</div>
+            <span>Início</span>
+        </a>
+        <a href="#">
+            <div class="menu-icon">📦</div>
+            <span>Recursos</span>
+        </a>
+        <a href="#">
+            <div class="menu-icon">↕</div>
+            <span>Movimentações</span>
+        </a>
+        <a href="#">
+            <div class="menu-icon">👥</div>
+            <span>Colaboradores</span>
+        </a>
+        <a href="#">
+            <div class="menu-icon">📊</div>
+            <span>Relatórios</span>
+        </a>
+    </nav>
+
+
+    <div class="logout">
+        <form th:action="@{/logout}" method="post" style="margin: 0;">
+            <button type="submit" class="logout-button">
+                <div class="menu-icon">↪</div>
+                <span>Sair</span>
+            </button>
+        </form>
+    </div>
+</aside>
+
+
+<!-- MAIN: este <main> usa .main, que cria o espaço para o conteúdo ao lado da sidebar. -->
+
+<main class="main">
+
+    <!-- HEADER: .header organiza o título e possíveis informações do usuário. -->
+
+    <header class="header">
+        <div>
+            <h1>Olá, seja bem-vindo 👋</h1>
+            <p>
+                Aqui está um resumo do seu almoxarifado.
+            </p>
+        </div>
+    </header>
+
+
+    <!-- CARDS: .cards cria a grade; cada .card recebe seu próprio visual. -->
+
+    <section class="cards">
+        <div class="card">
+            <div class="card-top">
+                <span class="card-label">
+                    Recursos cadastrados
+                </span>
+                <div class="card-icon">
+                    📦
+                </div>
+            </div>
+            <div class="card-value">
+
+            </div>
+            <div class="card-description">
+                Itens registrados no sistema
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-top">
+                <span class="card-label">
+                    Estoque disponível
+                </span>
+                <div class="card-icon">
+                    ✓
+                </div>
+            </div>
+
+            <div class="card-value">
+
+            </div>
+            <div class="card-description">
+                Recursos disponíveis
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-top">
+                <span class="card-label">
+                    Saídas hoje
+                </span>
+                <div class="card-icon">
+                    ↑
+                </div>
+            </div>
+            <div class="card-value">
+                14
+            </div>
+            <div class="card-description">
+                Recursos retirados hoje
+            </div>
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-top">
+                <span class="card-label">
+                    Estoque baixo
+                </span>
+                <div class="card-icon">
+                    !
+                </div>
+            </div>
+            <div class="card-value">
+                5
+            </div>
+            <div class="card-description">
+                Recursos precisam de atenção
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CONTEÚDO: .content divide a tabela e o painel de ações rápidas. -->
+
+    <section class="content">
+
+        <!-- MOVIMENTAÇÕES -->
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Movimentações recentes</h2>
+                <a href="#">
+                    Ver todas
+                </a>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Recurso</th>
+                    <th>Colaborador</th>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <span class="status saida">
+                            Saída
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <span class="status entrada">
+                            Entrada
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <span class="status saida">
+                            Saída
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <span class="status entrada">
+                            Entrada
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- AÇÕES -->
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Acesso rápido</h2>
+            </div>
+
+
+            <div class="actions">
+                <a th:href="@{/CadastroRecurso}" class="action">
+                    <div class="action-icon">
+                        +
+                    </div>
+                    <div >
+                        <strong>
+                            Cadastrar Recurso
+                        </strong>
+                        <span>
+                            Adicione um novo item
+                        </span>
+                    </div>
+                </a>
+
+
+                <a href="#" class="action">
+                    <div class="action-icon">
+                        ↕
+                    </div>
+                    <div class="action-text">
+                        <strong>
+                            Registrar movimentação
+                        </strong>
+                        <span>
+                            Entrada ou saída
+                        </span>
+                    </div>
+                </a>
+
+
+                <a href="#" class="action">
+                    <div class="action-icon">
+                        👤
+                    </div>
+                    <div class="action-text">
+                        <strong>
+                            Novo colaborador
+                        </strong>
+                        <span>
+                            Cadastrar usuário
+                        </span>
+                    </div>
+                </a>
+
+                <a href="#" class="action">
+                    <div class="action-icon">
+                        📊
+                    </div>
+                    <div class="action-text">
+
+                        <strong>
+                            Gerar relatório
+                        </strong>
+
+                        <span>
+                            Consulte os dados do estoque
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
+```
