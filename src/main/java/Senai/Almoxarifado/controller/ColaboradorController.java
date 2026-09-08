@@ -21,12 +21,7 @@ public class ColaboradorController {
     }
 
     @PostMapping("/login")
-    public String realizarLogin(
-            String email,
-            String senha,
-            Model model,
-            RedirectAttributes redirectAttributes,
-            HttpSession session) {
+    public String realizarLogin(String email, String senha, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
 
         try {
 
@@ -37,8 +32,7 @@ public class ColaboradorController {
             colaboradorDto.setSenha(senha);
 
             // Realiza login no banco de dados
-            ColaboradorDto colaboradorDtoRetorno =
-                    colaboradorService.realizarLogin(colaboradorDto);
+            ColaboradorDto colaboradorDtoRetorno = colaboradorService.realizarLogin(colaboradorDto);
 
             if (colaboradorDtoRetorno.getNome() != null) {
 
@@ -47,26 +41,21 @@ public class ColaboradorController {
                 sessaoDto.setUsuarioNome(colaboradorDtoRetorno.getNome());
                 SessaoUtil.RegistrarSessao(session, sessaoDto);
 
-                redirectAttributes.addFlashAttribute(
-                        "usuario",
-                        "Bem-vindo " + colaboradorDtoRetorno.getNome()
-                );
+                redirectAttributes.addFlashAttribute("usuario", "Bem-vindo " + colaboradorDtoRetorno.getNome());
 
                 return "redirect:/home";
             }
 
         } catch (RuntimeException e) {
 
-            model.addAttribute(
-                    "erro",
-                    "E-mail ou senha inválidos."
-            );
+            model.addAttribute("erro", "E-mail ou senha inválidos.");
 
             return "login";
         }
 
         return "redirect:/login";
     }
+
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         SessaoUtil.RemoverSessao(session);
